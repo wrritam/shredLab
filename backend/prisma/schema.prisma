@@ -1,0 +1,60 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  name      String?
+  bio       String?
+  is_verified Boolean
+  otp       Int?
+  last_login     String?
+  createdAt String
+  updatedAt String?
+  repositories Repository[] 
+  issues      Issue[]
+  comments    Comment[]
+}
+
+model Repository {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  owner       User      @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  issues      Issue[]
+}
+
+model Issue {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  creator     User      @relation(fields: [creatorId], references: [id])
+  creatorId   Int
+  repository  Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId Int
+  comments    Comment[]
+}
+
+model Comment {
+  id          Int       @id @default(autoincrement())
+  content     String
+  commentedAt   DateTime  @default(now())
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    Int
+  issue       Issue     @relation(fields: [issueId], references: [id])
+  issueId     Int
+}
