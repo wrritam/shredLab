@@ -1,9 +1,9 @@
-import Image from "next/image";
+import { FC } from 'react'
 
-export default function Home() {
+const Home: FC = () => {
   return (
-    <main className="">
-      Shredlab
-    </main>
-  );
+    <div>Home</div>
+  )
 }
+
+export default Home
