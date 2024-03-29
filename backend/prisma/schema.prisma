@@ -23,17 +23,31 @@ model User {
   repositories Repository[] 
   issues      Issue[]
   comments    Comment[]
+  files       File[]
 }
 
 model Repository {
   id          Int       @id @default(autoincrement())
   name        String
-  description String?
+  readme String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   owner       User      @relation(fields: [ownerId], references: [id])
   ownerId     Int
   issues      Issue[]
+  files       File[]
+}
+
+model File {
+  id          Int       @id @default(autoincrement())
+  name        String
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  repository  Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId Int
+  creator     User      @relation(fields: [creatorId], references: [id])
+  creatorId   Int
 }
 
 model Issue {
