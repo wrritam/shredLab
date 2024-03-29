@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -27,9 +26,9 @@ model User {
 }
 
 model Repository {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
-  readme String?
+  description String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   owner       User      @relation(fields: [ownerId], references: [id])
@@ -51,24 +50,24 @@ model File {
 }
 
 model Issue {
-  id          Int       @id @default(autoincrement())
-  title       String
-  description String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  creator     User      @relation(fields: [creatorId], references: [id])
-  creatorId   Int
-  repository  Repository @relation(fields: [repositoryId], references: [id])
+  id           Int        @id @default(autoincrement())
+  title        String
+  description  String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  creator      User       @relation(fields: [creatorId], references: [id])
+  creatorId    Int
+  repository   Repository @relation(fields: [repositoryId], references: [id])
   repositoryId Int
-  comments    Comment[]
+  comments     Comment[]
 }
 
 model Comment {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   content     String
-  commentedAt   DateTime  @default(now())
-  author      User      @relation(fields: [authorId], references: [id])
+  commentedAt DateTime @default(now())
+  author      User     @relation(fields: [authorId], references: [id])
   authorId    Int
-  issue       Issue     @relation(fields: [issueId], references: [id])
+  issue       Issue    @relation(fields: [issueId], references: [id])
   issueId     Int
 }
