@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMDFile = exports.updateMDFile = exports.readMDfiles = exports.writeMDfiles = exports.deleteRepo = exports.getAllRepos = exports.getTop4Repos = exports.createRepo = void 0;
+exports.deleteMDFile = exports.updateMDFile = exports.readMDfiles = exports.writeMDfiles = exports.deleteRepo = exports.getRepo = exports.myRepos = exports.getTop4Repos = exports.createRepo = void 0;
 const db_config_1 = __importDefault(require("../../../db/db.config"));
 // Creatung a new repository
 const createRepo = async (req, res) => {
@@ -15,7 +15,7 @@ const createRepo = async (req, res) => {
             data: {
                 name: req.body.name,
                 readme: req.body.readme,
-                ownerId: parseInt(req.params.userid),
+                ownerId: user.id,
             },
         });
         res.status(201).json({ message: "Repository created", data: newRepo.name });
@@ -32,7 +32,7 @@ const getTop4Repos = async (req, res) => {
     });
     if (user) {
         const repos = await db_config_1.default.repository.findMany({
-            where: { ownerId: parseInt(req.params.userid) },
+            where: { ownerId: user.id },
             take: 4,
         });
         res.status(200).json({ message: "Top 4 repositories", data: repos });
@@ -43,7 +43,7 @@ const getTop4Repos = async (req, res) => {
 };
 exports.getTop4Repos = getTop4Repos;
 // Get a user's all repositories
-const getAllRepos = async (req, res) => {
+const myRepos = async (req, res) => {
     const user = await db_config_1.default.user.findUnique({
         where: { email: req.user.email },
     });
@@ -57,7 +57,23 @@ const getAllRepos = async (req, res) => {
         res.status(403).json({ message: "User not found" });
     }
 };
-exports.getAllRepos = getAllRepos;
+exports.myRepos = myRepos;
+// get any repository
+const getRepo = async (req, res) => {
+    const user = await db_config_1.default.user.findUnique({
+        where: { email: req.user.email },
+    });
+    if (user) {
+        const repos = await db_config_1.default.repository.findMany({
+            where: { id: parseInt(req.params.repoid) },
+        });
+        res.status(200).json({ message: "All repositories", data: repos });
+    }
+    else {
+        res.status(403).json({ message: "User not found" });
+    }
+};
+exports.getRepo = getRepo;
 // Delete repository by id
 const deleteRepo = async (req, res) => {
     const user = await db_config_1.default.user.findUnique({
@@ -65,7 +81,7 @@ const deleteRepo = async (req, res) => {
     });
     if (user) {
         const repo = await db_config_1.default.repository.findUnique({
-            where: { id: parseInt(req.params.repid), ownerId: user.id },
+            where: { id: parseInt(req.params.repoid), ownerId: user.id },
         });
         if (repo) {
             const deletedRepo = await db_config_1.default.repository.delete({
@@ -91,14 +107,14 @@ const writeMDfiles = async (req, res) => {
     });
     if (user) {
         const repo = await db_config_1.default.repository.findUnique({
-            where: { id: parseInt(req.params.repid) },
+            where: { id: parseInt(req.params.repoid), ownerId: user.id },
         });
         if (repo) {
             const newMDfile = await db_config_1.default.file.create({
                 data: {
                     name: req.body.name,
                     content: req.body.content,
-                    creatorId: parseInt(req.params.userid),
+                    creatorId: user.id,
                     repositoryId: parseInt(req.params.repoid),
                 },
             });
@@ -122,7 +138,7 @@ const readMDfiles = async (req, res) => {
     });
     if (user) {
         const repo = await db_config_1.default.repository.findUnique({
-            where: { id: parseInt(req.params.repid) },
+            where: { id: parseInt(req.params.repoid) },
         });
         if (repo) {
             const file = await db_config_1.default.file.findUnique({
@@ -146,7 +162,7 @@ const updateMDFile = async (req, res) => {
     });
     if (user) {
         const repo = await db_config_1.default.repository.findUnique({
-            where: { id: parseInt(req.params.repoid) },
+            where: { id: parseInt(req.params.repoid), ownerId: user.id },
         });
         if (repo) {
             const file = await db_config_1.default.file.findUnique({
@@ -183,7 +199,7 @@ const deleteMDFile = async (req, res) => {
     });
     if (user) {
         const repo = await db_config_1.default.repository.findUnique({
-            where: { id: parseInt(req.params.repoid) },
+            where: { id: parseInt(req.params.repoid), ownerId: user.id },
         });
         if (repo) {
             const file = await db_config_1.default.file.findUnique({

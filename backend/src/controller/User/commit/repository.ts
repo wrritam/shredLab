@@ -22,7 +22,7 @@ export const createRepo = async (req: UserRequest, res: express.Response) => {
       data: {
         name: req.body.name,
         readme: req.body.readme,
-        ownerId: parseInt(req.params.userid),
+        ownerId: user.id,
       },
     });
     res.status(201).json({ message: "Repository created", data: newRepo.name });
@@ -40,7 +40,7 @@ export const getTop4Repos = async (req: UserRequest, res: express.Response) => {
 
   if (user) {
     const repos = await prisma.repository.findMany({
-      where: { ownerId: parseInt(req.params.userid) },
+      where: { ownerId: user.id },
       take: 4,
     });
     res.status(200).json({ message: "Top 4 repositories", data: repos });
@@ -51,7 +51,7 @@ export const getTop4Repos = async (req: UserRequest, res: express.Response) => {
 
 // Get a user's all repositories
 
-export const getAllRepos = async (req: UserRequest, res: express.Response) => {
+export const myRepos = async (req: UserRequest, res: express.Response) => {
   const user = await prisma.user.findUnique({
     where: { email: req.user.email },
   });
@@ -59,6 +59,23 @@ export const getAllRepos = async (req: UserRequest, res: express.Response) => {
   if (user) {
     const repos = await prisma.repository.findMany({
       where: { ownerId: user.id },
+    });
+    res.status(200).json({ message: "All repositories", data: repos });
+  } else {
+    res.status(403).json({ message: "User not found" });
+  }
+};
+
+// get any repository
+
+export const getRepo = async (req: UserRequest, res: express.Response) => {
+  const user = await prisma.user.findUnique({
+    where: { email: req.user.email },
+  });
+
+  if (user) {
+    const repos = await prisma.repository.findMany({
+      where: { id: parseInt(req.params.repoid) },
     });
     res.status(200).json({ message: "All repositories", data: repos });
   } else {
@@ -75,7 +92,7 @@ export const deleteRepo = async (req: UserRequest, res: express.Response) => {
 
   if (user) {
     const repo = await prisma.repository.findUnique({
-      where: { id: parseInt(req.params.repid), ownerId: user.id },
+      where: { id: parseInt(req.params.repoid), ownerId: user.id },
     });
 
     if (repo) {
@@ -102,7 +119,7 @@ export const writeMDfiles = async (req: UserRequest, res: express.Response) => {
 
   if (user) {
     const repo = await prisma.repository.findUnique({
-      where: { id: parseInt(req.params.repid) },
+      where: { id: parseInt(req.params.repoid), ownerId: user.id },
     });
 
     if (repo) {
@@ -110,7 +127,7 @@ export const writeMDfiles = async (req: UserRequest, res: express.Response) => {
         data: {
           name: req.body.name,
           content: req.body.content,
-          creatorId: parseInt(req.params.userid),
+          creatorId: user.id,
           repositoryId: parseInt(req.params.repoid),
         },
       });
@@ -134,7 +151,7 @@ export const readMDfiles = async (req: UserRequest, res: express.Response) => {
 
   if (user) {
     const repo = await prisma.repository.findUnique({
-      where: { id: parseInt(req.params.repid) },
+      where: { id: parseInt(req.params.repoid) },
     });
 
     if (repo) {
@@ -159,7 +176,7 @@ export const updateMDFile = async (req: UserRequest, res: express.Response) => {
 
   if (user) {
     const repo = await prisma.repository.findUnique({
-      where: { id: parseInt(req.params.repoid) },
+      where: { id: parseInt(req.params.repoid), ownerId: user.id },
     });
 
     if (repo) {
@@ -197,7 +214,7 @@ export const deleteMDFile = async (req: UserRequest, res: express.Response) => {
 
   if (user) {
     const repo = await prisma.repository.findUnique({
-      where: { id: parseInt(req.params.repoid) },
+      where: { id: parseInt(req.params.repoid), ownerId: user.id },
     });
 
     if (repo) {
