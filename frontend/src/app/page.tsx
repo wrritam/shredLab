@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import Navbar from '@/components/Navbar'
-import Hero from './home/Hero'
+import Navbar from '@/components/globals/Navbar'
+import Hero from './(home)/Hero'
 
 const Home: FC = () => {
   return (
