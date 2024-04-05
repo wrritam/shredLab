@@ -19,7 +19,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #000000;
   scrollbar-width: none;
-  @apply text-[#BBBBBB];
+  @apply text-[#FFFFFF];
+  min-height: 100vh;
+  width: auto;
 }
 
 body::-webkit-scrollbar {
@@ -59,4 +61,199 @@ input[type="number"] {
 
 .rotate {
   animation: rotation 2s infinite linear;
+}
+
+.lines {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 100vh;
+    justify-content: space-between;
+    left: calc(50.00000000000002% - 100% / 2);
+    overflow: hidden;
+    padding: 0;
+    position: fixed;
+    top: calc(50.00000000000002% - 100vh / 2);
+    width: 100%;
+    z-index: 0;
+}
+
+.single-line {
+  background-color: var(--token-12dd008e-a7b8-4067-9fe3-66c2d418d405, rgba(255, 255, 255, .15));
+  flex: none;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  transform: perspective(1200px);
+  width: 1px;
+  opacity: 1;
+}
+
+.navbar-wrap {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 10px;
+  height: min-content;
+  justify-content: center;
+  left: 50%;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  transform: translate(-50%);
+  width: 100%;
+  z-index: 10;
+}
+
+.navbar-inside-wrap {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0px;
+  height: auto;
+  justify-content: center;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  opacity: 1;
+}
+
+.navbar-container {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0px;
+  height: auto;
+  justify-content: space-between;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  border-bottom-width: 1px;
+  border-color: var(--token-12dd008e-a7b8-4067-9fe3-66c2d418d405, rgba(255, 255, 255, 0.1));
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-top-width: 1px;
+  background-color: var(--token-9ccdbc2d-17ce-4119-a5ac-e399aaba57f3, rgb(0, 0, 0));
+  opacity: 1;
+  transform: perspective(1200px);
+  width: 100%;
+}
+
+.left-part {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 10px;
+  height: min-content;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 15px;
+  position: relative;
+  text-decoration: none;
+  width: 15%;
+}
+
+.center-part {
+  border-bottom-width: 0px;
+  border-color: rgba(0, 0, 0, 0);
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-style: solid;
+  border-top-width: 0px;
+  opacity: 1;
+  transform: perspective(1200px);
+  align-items: center;
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 10px;
+  height: min-content;
+  justify-content: center;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  width: min-content;
+}
+
+.icons-wrap {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0px;
+  height: min-content;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: min-content;
+}
+
+.right-part {
+  opacity: 1;
+  transform: perspective(1200px);
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 10px;
+  height: min-content;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 15px;
+  position: relative;
+  text-decoration: none;
+  width: 15%;
+}
+
+.icon-wrap {
+    border-bottom-width: 0px;
+    border-color: var(--token-12dd008e-a7b8-4067-9fe3-66c2d418d405, rgba(255, 255, 255, 0.1));
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-style: solid;
+    border-top-width: 0px;
+    opacity: 1;
+    align-content: center;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 5px;
+    height: min-content;
+    justify-content: center;
+    overflow: hidden;
+    padding: 15px 18px;
+    position: relative;
+    text-decoration: none;
+    width: min-content;
+}
+
+.icon-inner-wrap {
+  flex: none;
+  height: 20px;
+  position: relative;
+  width: 20px;
 }

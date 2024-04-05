@@ -1,8 +1,21 @@
 import { FC } from 'react'
+import Navbar from '@/components/Navbar'
+import Hero from './home/Hero'
 
 const Home: FC = () => {
   return (
-    <div>Home</div>
+    <section>
+      <div className='lines'>
+        <div className='single-line'></div>
+        <div className='single-line'></div>
+        <div className='single-line'></div>
+        <div className='single-line'></div>
+        <div className='single-line'></div>
+        <div className='single-line'></div>
+      </div>
+      <Navbar />
+      <Hero />
+    </section>
   )
 }
 
