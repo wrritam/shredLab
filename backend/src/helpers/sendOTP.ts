@@ -1,4 +1,13 @@
-export function sendOTP() {
-  const randomNum = Math.random() * 9000;
-  return Math.floor(1000 + randomNum);
+import { randomBytes } from 'crypto';
+
+export function sendOTP(): number {
+    const randomBytesBuffer = randomBytes(3);
+    const cryptoRandomNumber = randomBytesBuffer.readUIntBE(0, 3);
+
+    const mathRandomNumber = Math.floor(Math.random() * 900000) + 100000;
+    const combinedRandomNumber = cryptoRandomNumber * mathRandomNumber;
+
+    const oneTimePassword = combinedRandomNumber % 900000 + 100000;
+
+    return oneTimePassword;
 }
