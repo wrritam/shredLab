@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Navbar from '@/components/globals/Navbar'
+import Navbar from '@/components/global/Navbar'
 import Hero from './(home)/Hero'
 
 const Home: FC = () => {

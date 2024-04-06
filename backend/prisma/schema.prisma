@@ -8,55 +8,75 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  name      String?
-  bio       String?
-  is_verified Boolean
-  otp       Int?
-  last_login     String?
-  createdAt String
-  updatedAt String?
-  repositories Repository[] 
-  issues      Issue[]
-  comments    Comment[]
-  files       File[]
-  likedRepo   LikedRepo[]
+  id                      Int           @id @default(autoincrement())
+  username                String        @unique
+  email                   String        @unique
+  profilePictureUrl       String
+  pronouns                String?
+  password                String
+  name                    String
+  bio                     String?
+  is_verified             Boolean
+  otp                     Int?
+  last_login              DateTime      @default(now())
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  commits                 Commit[]
+  repositoriesOwned       Repository[]  @relation("ownedBy")
+  repositoriesContributed Repository[]  @relation("contributedTo")
+  issues                  Issue[]
+  comments                Comment[]
+  files                   File[]
+  likedRepo               LikedRepo[]
+  PullRequest             PullRequest[]
+  Organization            Organization? @relation(fields: [organizationId], references: [id])
+  organizationId          Int?
+}
+
+model Commit {
+  id            Int        @id @default(autoincrement())
+  message       String
+  timestamp     DateTime
+  repository    Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId  Int
+  contributor   User       @relation(fields: [contributorId], references: [id])
+  contributorId Int
 }
 
 model Repository {
-  id          Int      @id @default(autoincrement())
-  name        String
-  readme      String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  owner       User      @relation(fields: [ownerId], references: [id])
-  ownerId     Int
-  issues      Issue[]
-  files       File[]
-  likedBy     LikedRepo[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  readme       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  owner        User          @relation("ownedBy", fields: [ownerId], references: [id])
+  ownerId      Int
+  contributors User[]        @relation("contributedTo")
+  commits      Commit[]
+  issues       Issue[]
+  files        File[]
+  likedBy      LikedRepo[]
+  PullRequest  PullRequest[]
 }
 
-model LikedRepo{
-  id           Int @id @default(autoincrement())
-  repository Repository @relation(fields: [repositoryId], references: [id])
+model LikedRepo {
+  id           Int        @id @default(autoincrement())
+  repository   Repository @relation(fields: [repositoryId], references: [id])
   repositoryId Int
-  likedBy         User @relation(fields: [likedBySerId], references: [id])
-  likedBySerId       Int
+  likedBy      User       @relation(fields: [likedBySerId], references: [id])
+  likedBySerId Int
 }
 
 model File {
-  id          Int       @id @default(autoincrement())
-  name        String
-  content     String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  repository  Repository @relation(fields: [repositoryId], references: [id])
+  id           Int        @id @default(autoincrement())
+  name         String
+  content      String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  repository   Repository @relation(fields: [repositoryId], references: [id])
   repositoryId Int
-  creator     User      @relation(fields: [creatorId], references: [id])
-  creatorId   Int
+  creator      User       @relation(fields: [creatorId], references: [id])
+  creatorId    Int
 }
 
 model Issue {
@@ -72,12 +92,33 @@ model Issue {
   comments     Comment[]
 }
 
+model PullRequest {
+  id           Int        @id @default(autoincrement())
+  title        String
+  description  String?
+  status       String
+  repository   Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId Int
+  creator      User       @relation(fields: [creatorId], references: [id])
+  creatorId    Int
+  comments     Comment[]
+}
+
 model Comment {
-  id          Int      @id @default(autoincrement())
-  content     String
-  commentedAt DateTime @default(now())
-  author      User     @relation(fields: [authorId], references: [id])
-  authorId    Int
-  issue       Issue    @relation(fields: [issueId], references: [id])
-  issueId     Int
+  id            Int          @id @default(autoincrement())
+  content       String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  author        User         @relation(fields: [authorId], references: [id])
+  authorId      Int
+  issue         Issue?       @relation(fields: [issueId], references: [id])
+  issueId       Int?
+  pullRequest   PullRequest? @relation(fields: [pullRequestId], references: [id])
+  pullRequestId Int?
+}
+
+model Organization {
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  members User[]
 }
