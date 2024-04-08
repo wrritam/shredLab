@@ -28,7 +28,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                     createdAt: new Date(),
                 },
             });
-            const emailTemplatePath = path.resolve(__dirname, '../../../templates/email.handlebars');
+            const emailTemplatePath = path.resolve(__dirname, '../../../templates/oneTimePassword.handlebars');
             const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
             const emailTemplate = Handlebars.compile(emailTemplateSource);
             const content = emailTemplate({ randomOTP });
@@ -61,7 +61,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                 createdAt: new Date(),
             },
         });
-        const emailTemplatePath = path.resolve(__dirname, '../../../templates/email.handlebars');
+        const emailTemplatePath = path.resolve(__dirname, '../../../templates/oneTimePassword.handlebars');
         const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
         const emailTemplate = Handlebars.compile(emailTemplateSource);
         const content = emailTemplate({ randomOTP });
@@ -73,10 +73,6 @@ export const register = async (req: express.Request, res: express.Response) => {
         const token = jwt.sign({ email: email, name: name }, process.env.hiddenKey as string, {
             expiresIn: '1d',
         });
-        res.json({
-            success: true,
-            message: 'User created successfully',
-            token: token,
-        });
+        res.json({ success: true, message: 'User created successfully', token: token });
     }
 };

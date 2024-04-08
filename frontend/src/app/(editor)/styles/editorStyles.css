@@ -1,0 +1,470 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ce-block__content,
+.ce-toolbar__content {
+   max-width: calc(85% - 80px) !important;
+   background-color: #DDE6ED;
+   background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+   color: #181823;
+   transition: all 300ms ease-in-out;
+}
+
+.cdx-list__item::selection {
+   background-color: #DDE6ED;
+   background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+   border-radius: 5px;
+}
+
+.title::selection {
+   background-color: #9DB2BF;
+}
+
+.cdx-block.ce-paragraph {
+   max-width: 100% !important;
+   transition: all 300ms ease-in-out;
+   background-color: #DDE6ED;
+   background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+   color: #183D3D;
+   @apply justify-center items-center
+}
+.cdx-block.cdx-checklist {
+   background-color: #DDE6ED;
+   background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+}
+.cdx-checklist__item-checkbox-check {
+   background-color: #DDE6ED !important;
+}
+.cdx-input.cdx-quote__text::selection {
+   font-weight: 500;
+}
+
+.cdx-input.cdx-quote__text::selection {
+   background-color: #9DB2BF !important;
+}
+.cdx-checklist__item-text::selection {
+   background-color: #9DB2BF !important;
+}
+
+.cdx-block.cdx-list.cdx-list--unordered::selection {
+   background-color: #9DB2BF !important;
+}
+
+.ce-header::selection {
+   background-color: #9DB2BF;
+   background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+}
+
+.cdx-block.ce-paragraph::selection {
+   background-color: #DDE6ED !important;
+   background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+   border-radius: 5px;
+}
+
+.ce-block--selected:root {
+   background-color: #DDE6ED !important;
+}
+
+.ce-paragraph::before {
+   transition: all 300ms ease-in-out;
+}
+
+.ce-paragraph::after {
+   transition: all 300ms ease-in-out;
+   background-color: #181823;
+}
+
+.ce-toolbar__actions.ce-toolbar__actions--opened {
+   @apply px-5
+}
+
+.ce-toolbar__plus {
+   width: 30px;
+   height: 30px;
+   background-color: #181823;
+}
+
+.ce-toolbar__plus svg path {
+   stroke: #F1F6F9;
+   transition: all 300ms ease-in-out;
+}
+
+.ce-toolbar__plus:hover svg path {
+   stroke: rgb(172, 193, 206);
+   transition: all 300ms ease-in-out;
+}
+
+.ce-toolbar__plus:hover {
+   background-color: #181823;
+   color: white;
+   transition: all 300ms ease-in-out;
+}
+
+.ce-toolbar__settings-btn {
+   width: 30px;
+   height: 30px;
+   background-color: #181823;
+}
+
+.ce-toolbar__settings-btn svg path {
+   stroke: #F1F6F9;
+   transition: all 300ms ease-in-out;
+}
+
+.ce-toolbar__settings-btn:hover {
+   background-color: #01080b;
+   transition: all 300ms ease-in-out;
+}
+
+.ce-toolbar__settings-btn:hover svg path {
+   stroke: rgb(172, 193, 206);
+}
+
+.ce-inline-toolbar {
+   background-color: transparent !important;
+   margin-top: 10px;
+   border-radius: 30px;
+   position: absolute;
+   box-shadow: none !important;
+}
+
+.ce-inline-toolbar--showed {
+   opacity: 1;
+   z-index: 10;
+   border: none;
+}
+
+.ce-inline-toolbar__toggler-and-button-wrapper {
+   background-color: transparent !important;
+   border-radius: 5px;
+   transition: all 300ms ease-in-out;
+   padding: 0;
+}
+
+.ce-inline-toolbar__dropdown {
+   background-color: #181823;
+   border-radius: 5px;
+   border: #000;
+   z-index: 10;
+   transition: all 300ms ease-in-out;
+   @apply px-5
+}
+
+.ce-inline-toolbar__dropdown:hover {
+   padding: none;
+   background-color: #181823;
+   transition: all 300ms ease-in-out;
+}
+
+.ce-inline-toolbar__buttons {
+   background-color: #181823;
+   border-radius: 5px;
+   padding: 10px;
+   border: #000;
+   transition: all 300ms ease-in-out;
+   @apply flex gap-3 border
+}
+
+.ce-inline-tool.ce-inline-tool--bold:hover,
+.ce-inline-tool.ce-inline-tool--italic:hover,
+.ce-inline-tool.ce-inline-tool--link:hover,
+.ce-inline-tool:hover {
+   background-color: transparent !important;
+   border-radius: 5px;
+}
+
+/* .ce-inline-toolbar__dropdown-arrow svg {
+   width: 25px;
+   height: 25px;
+   margin-left: -5px;
+} */
+
+.ce-inline-tool.ce-inline-tool--bold svg,
+.ce-inline-tool.ce-inline-tool--italic svg,
+.ce-inline-tool.ce-inline-tool--link svg,
+.ce-inline-toolbar__dropdown-content svg,
+.ce-inline-toolbar__dropdown-arrow svg,
+.ce-inline-tool svg,
+.ce-inline-tool svg {
+   width: 0px;
+   height: 0px
+}
+
+.ce-inline-tool.ce-inline-tool--bold {
+   background-image: url('../../../../public/editor-icons/bold.svg');
+   @apply justify-center items-center flex m-auto w-4 h-4 ml-3
+}
+
+.ce-inline-tool.ce-inline-tool--italic {
+   background-image: url('../../../../public/editor-icons/italic.svg');
+   @apply justify-center items-center flex m-auto w-4 h-4
+}
+
+.ce-inline-tool.ce-inline-tool--link {
+   background-image: url('../../../../public/editor-icons/link.svg');
+   @apply justify-center items-center flex m-auto w-[1.15rem] h-[1.15rem]
+}
+
+.ce-inline-toolbar__dropdown-content {
+   background-image: url('../../../../public/editor-icons/content.svg');
+   @apply justify-center items-center flex m-auto w-5 h-5
+}
+
+.ce-inline-tool[data-tool="marker"] {
+   background-image: url('../../../../public/editor-icons/highlight.svg');
+   @apply justify-center items-center flex m-auto w-5 h-5
+}
+
+button.ce-inline-tool[data-tool="inlineCode"] {
+   background-image: url('../../../../public/editor-icons/code.svg');
+   @apply justify-center items-center flex m-auto w-6 h-6 mr-3
+ }
+/* .ce-inline-tool.ce-inline-tool--bold svg path,
+.ce-inline-tool.ce-inline-tool--italic svg path,
+.ce-inline-tool.ce-inline-tool--link svg path,
+.ce-inline-toolbar__dropdown-content svg path,
+.ce-inline-tool svg line,
+.ce-inline-tool svg path {
+   stroke-width: 1.5;
+   stroke: #9DB2BF;
+} */
+
+.ce-inline-toolbar__dropdown-arrow svg path {
+   stroke-width: 1.5;
+}
+
+.ce-popover,
+.ce-popover__opened {
+   scrollbar-width: none;
+   background-color: #181823;
+   opacity: 0.95;
+   color-background-item-hover: #181823;
+   border: none;
+}
+
+.ce-conversion-toolbar {
+   background-color: #181823;
+   backdrop-filter: blur(20px);
+   border: none;
+   z-index: 10;
+}
+
+.ce-conversion-toolbar.ce-conversion-toolbar--showed {
+   background-color: #181823;
+   backdrop-filter: blur(20px);
+   z-index: 10;
+}
+
+.ce-conversion-tool.ce-conversion-tool--focused {
+   background-color: rgba(20, 20, 20, 0) !important;
+   -webkit-box-shadow: none !important;
+   box-shadow: none !important;
+}
+
+.ce-conversion-tool.ce-conversion-tool--focused:hover {
+   background-color: rgba(15, 15, 15, 0.7) !important;
+   border-radius: 5px;
+}
+
+.ce-conversion-tool:hover {
+   background-color: rgba(15, 15, 15, 0.7) !important;
+   border-radius: 5px;
+}
+
+.ce-conversion-tool__icon {
+   background-color: rgba(25, 25, 25, 0.9) !important;
+   -webkit-box-shadow: none !important;
+   box-shadow: none !important;
+}
+
+.ce-conversion-toolbar__label {
+   font-weight: 700;
+}
+.ce-inline-tool-input.ce-inline-tool-input--showed {
+   background-color: #9BA4B5;
+   border: none;
+   @apply mt-2 rounded-md -ml-2 w-[103%] shadow backdrop-blur-sm caret-slate-500 font-medium text-base
+}
+
+.cdx-search-field,
+.ce-popover__search {
+   background-color: rgba(20, 20, 20, 0.7);
+   border: none
+}
+
+.ce-popover-item {
+   color: white;
+}
+
+.ce-popover-item:hover {
+   background-color: #222831 !important;
+}
+
+.ce-popover-item__icon {
+   background-color: #31363F;
+   border: none;
+   box-shadow: 10px;
+   -webkit-box-shadow: none
+}
+
+.ce-popover-item__title {
+   color: white;
+   font-weight: 600;
+}
+
+.ce-popover::-webkit-scrollbar,
+.ce-popover__opened::-webkit-scrollbar {
+   scrollbar-width: none;
+}
+
+.ce-popover__items {
+   scrollbar-width: none;
+}
+
+.ce-popover__items::-webkit-scrollbar {
+   display: none;
+}
+
+.ce-inline-toolbar__toggler-and-button-wrapper {
+   background-color: rgba(255, 255, 255, 0.4);
+   -webkit-backdrop-filter: blur(5px);
+   backdrop-filter: blur(5px);
+}
+
+@layer components {
+   .editorJs h1 {
+      @apply text-5xl;
+      font-optical-sizing: auto;
+      font-weight: 700;
+   }
+
+   .editorJs h2 {
+      @apply text-4xl;
+      font-optical-sizing: auto;
+      font-weight: 700;
+   }
+
+   .editorJs span {
+      @apply text-lg;
+      @apply tracking-wide font-medium leading-none
+   }
+
+   .editorJs span::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs h2::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs h3 {
+      @apply text-3xl;
+      font-optical-sizing: auto;
+      font-weight: 600;
+   }
+
+   .editorJs h4 {
+      @apply text-2xl;
+      font-optical-sizing: auto;
+      font-weight: 600;
+   }
+
+   .editorJs h5 {
+      @apply text-xl;
+      font-optical-sizing: auto;
+      font-weight: 500;
+   }
+
+   .editorJs h6 {
+      @apply text-lg;
+      font-optical-sizing: auto;
+      font-weight: 500;
+   }
+
+   .editorJs h6::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs li::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs mark {
+      background-color: #EEF5FF;
+      @apply px-2 py-1 rounded-md text-[#183D3D] border-none
+   }
+
+   .editorJs mark::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs a {
+      @apply text-violet-500 underline;
+      @apply my-auto
+   }
+
+   .editorJs a::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs b {
+      font-weight: 600;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+   }
+
+   .editorJs b::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs i {
+      font-family: "Lora", serif;
+      font-weight: 500;
+      font-style: italic;
+   }
+
+   .editorJs i::selection {
+      background-color: #DDE6ED;
+   }
+
+   .editorJs code {
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 600;
+      background-color: transparent !important;
+      color: #040D12;
+      @apply text-base
+   }
+
+   .editorJs code::selection {
+      background-color: #DDE6ED;
+   }
+}
+
+.ce-paragraph {
+   @apply text-lg
+}
+
+.cdx-list__item {
+   @apply text-lg
+}
+
+b {
+   font-optical-sizing: auto;
+   font-weight: 900;
+}
+
+b::selection {
+   background-color: #181823;
+   border-radius: 5px;
+}
+
+i {
+   font-style: italic;
+   font-family: "Lora", serif;
+}
+
+a {
+   color: blue;
+   text-decoration: underline;
+}
