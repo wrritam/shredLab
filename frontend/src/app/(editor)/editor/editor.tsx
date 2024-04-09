@@ -28,7 +28,7 @@ const Editor = () => {
       }
     }, []);
   return (
-   <div id='textEditor' className="editorJs w-full mt-5 h-[20vw]"></div>
+   <div id='textEditor' className="editorJs w-full"></div>
   )
 }
 

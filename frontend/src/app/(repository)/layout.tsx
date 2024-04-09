@@ -1,8 +1,9 @@
-import { FC } from 'react'
 import Navbar from '@/components/global/Navbar'
-import Hero from './(home)/Hero'
+import React from 'react'
 
-const Home: FC = () => {
+type Props = { children: React.ReactNode }
+
+const Layout = (props: Props) => {
   return (
     <section>
       <div className='lines'>
@@ -14,9 +15,9 @@ const Home: FC = () => {
         <div className='single-line'></div>
       </div>
       <Navbar />
-      <Hero />
+      {props.children}
     </section>
   )
 }
 
-export default Home
+export default Layout

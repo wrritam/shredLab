@@ -52,9 +52,9 @@ const Page: FC = () => {
           </div>
       </div>
       <hr className='w-[100%] border-t-[1px] border-neutral-200'/>
-      <div className='mx-auto max-w-[80%] w-full mt-32'>
+      <div className='mx-auto max-w-[80%] w-full mt-[8vw]'>
         <textarea
-          placeholder='Blog Title'
+          placeholder='Name of your shredd'
           className='text-4xl scroll font-bold w-full outline-none resize-none mt-10 leading-tight bg-transparent caret-teal-900 text-[#040D12] title'
           onKeyDown={handleTitlekeyDown}
           onChange={handleTitleChange}

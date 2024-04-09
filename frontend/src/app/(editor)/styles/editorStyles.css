@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+   font-family: Cartograph CF;
+   src: url("../../../../public/fonts/Cartograph_CF.ttf");
+}
 .ce-block__content,
 .ce-toolbar__content {
    max-width: calc(85% - 80px) !important;
@@ -143,27 +147,24 @@
 }
 
 .ce-inline-toolbar__dropdown {
-   background-color: #181823;
-   border-radius: 5px;
-   border: #000;
+   /* background-color: #181823; */
+   background-color: rgba(24, 24, 35, 0.95);
    z-index: 10;
    transition: all 300ms ease-in-out;
-   @apply px-5
+   @apply flex rounded-lg backdrop-blur-md px-3
 }
 
 .ce-inline-toolbar__dropdown:hover {
-   padding: none;
    background-color: #181823;
    transition: all 300ms ease-in-out;
 }
 
 .ce-inline-toolbar__buttons {
-   background-color: #181823;
-   border-radius: 5px;
+   /* background-color: #181823; */
+   background-color: rgba(24, 24, 35, 0.95);
    padding: 10px;
-   border: #000;
    transition: all 300ms ease-in-out;
-   @apply flex gap-3 border
+   @apply flex gap-3 rounded-lg backdrop-blur-md
 }
 
 .ce-inline-tool.ce-inline-tool--bold:hover,
@@ -171,7 +172,6 @@
 .ce-inline-tool.ce-inline-tool--link:hover,
 .ce-inline-tool:hover {
    background-color: transparent !important;
-   border-radius: 5px;
 }
 
 /* .ce-inline-toolbar__dropdown-arrow svg {
@@ -347,7 +347,7 @@ button.ce-inline-tool[data-tool="inlineCode"] {
 
    .editorJs span {
       @apply text-lg;
-      @apply tracking-wide font-medium leading-none
+      @apply font-medium leading-none
    }
 
    .editorJs span::selection {
@@ -392,7 +392,7 @@ button.ce-inline-tool[data-tool="inlineCode"] {
 
    .editorJs mark {
       background-color: #EEF5FF;
-      @apply px-2 py-1 rounded-md text-[#183D3D] border-none
+      @apply px-2 py-1 rounded-md text-[#183D3D] border-none font-medium tracking-tight
    }
 
    .editorJs mark::selection {
@@ -429,11 +429,11 @@ button.ce-inline-tool[data-tool="inlineCode"] {
    }
 
    .editorJs code {
-      font-family: "Space Grotesk", sans-serif;
-      font-weight: 600;
+      font-family: "Cartograph CF", monospace;
+      font-weight: 400;
       background-color: transparent !important;
       color: #040D12;
-      @apply text-base
+      letter-spacing: -0.05em !important;
    }
 
    .editorJs code::selection {

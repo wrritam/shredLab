@@ -44,7 +44,7 @@ model Commit {
 model Repository {
   id           Int           @id @default(autoincrement())
   name         String
-  readme       String
+  readme       Json
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   owner        User          @relation("ownedBy", fields: [ownerId], references: [id])
@@ -69,7 +69,7 @@ model LikedRepo {
 model File {
   id           Int        @id @default(autoincrement())
   name         String
-  content      String
+  content      Json
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   repository   Repository @relation(fields: [repositoryId], references: [id])
@@ -95,7 +95,7 @@ model PullRequest {
   id           Int        @id @default(autoincrement())
   title        String
   description  String?
-  status       String
+  status       Boolean
   repository   Repository @relation(fields: [repositoryId], references: [id])
   repositoryId Int
   creator      User       @relation(fields: [creatorId], references: [id])
