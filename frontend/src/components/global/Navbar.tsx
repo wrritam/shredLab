@@ -9,7 +9,7 @@ const Navbar: FC = () => {
             <div className='flex justify-between w-full'>
                <div className='flex gap-2'>
                   <img src="/Logo.svg" alt='shredlab' className='w-6 h-6 my-auto'/>
-                  <h1 className='text-center my-auto font-medium text-xl tracking-tight'>Shredlab</h1>
+                  <h1 className='text-center my-auto font-bold text-xl tracking-tight'>Shredlab</h1>
                </div>
                <div className='my-auto'>
                   <div className='flex gap-5'>

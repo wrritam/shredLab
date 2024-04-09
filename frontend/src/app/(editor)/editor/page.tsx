@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react'
 import { Info, MoreHorizontal } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { Button } from '@nextui-org/react';
+import Link from 'next/link';
 
 const Editor = dynamic(() => import("./editor"), { ssr: false })
 
@@ -36,12 +37,15 @@ const Page: FC = () => {
   return (
     <section className='min-h-screen'>
       <div className="flex justify-between px-[11vw] w-full mx-auto py-4 fixed z-10 bg-[#9BA4B5] border-b-[1px] border-neutral-200">
-         <div className='flex gap-2'>
-            <img src="/Logo.svg" alt='shredlab' className='w-6 h-6 my-auto'/>
-            <h1 className='text-center my-auto font-medium text-xl tracking-tight'>Shredlab</h1>
-         </div>
+        <div className='flex gap-2'>
+          <Link href="/" className='my-auto'>
+              <img src="/Logo.svg" alt='shredlab' className='w-6 h-6 my-auto'/>
+          </Link>
+          <div className='text-center my-auto font-bold text-xl tracking-tight text-white'>Shredlab</div>
+        </div>
+
           <div className="flex gap-1">
-              <Button className="bg-[#212A3E] animation px-5 py-2 rounded-md my-auto text-[#9BA4B5] font-semibold shadow">
+              <Button className="bg-[#212A3E] animation px-5 py-2 rounded-md my-auto text-[#9BA4B5] font-bold shadow">
                   Publish Preview
               </Button>
               <p className="my-auto tracking-tight font-satoshi-medium"></p>
