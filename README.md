@@ -1,7 +1,7 @@
 # shreddLab
 
 <div align="center">
-   <img src ="./assets/Editor.jpeg" width=full height=full>
+   <img src="./assets/Editor.jpeg" width="full" height="full" class="rounded-img">
 </div>
 
 ## Description

@@ -5,7 +5,7 @@ type Props = { children: React.ReactNode }
 
 const Layout = (props: Props) => {
   return (
-    <section>
+    <section className='-z-10'>
       <div className='lines'>
         <div className='single-line'></div>
         <div className='single-line'></div>
