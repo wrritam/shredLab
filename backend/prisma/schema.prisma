@@ -29,8 +29,6 @@ model User {
   files                   File[]
   likedRepo               LikedRepo[]
   PullRequest             PullRequest[]
-  Organization            Organization? @relation(fields: [organizationId], references: [id])
-  organizationId          Int?
 }
 
 model Commit {
@@ -57,6 +55,7 @@ model Repository {
   files        File[]
   likedBy      LikedRepo[]
   PullRequest  PullRequest[]
+  comments     Comment[]
 }
 
 model LikedRepo {
@@ -77,6 +76,7 @@ model File {
   repositoryId Int
   creator      User       @relation(fields: [creatorId], references: [id])
   creatorId    Int
+  comments     Comment[]
 }
 
 model Issue {
@@ -89,7 +89,6 @@ model Issue {
   creatorId    Int
   repository   Repository @relation(fields: [repositoryId], references: [id])
   repositoryId Int
-  comments     Comment[]
 }
 
 model PullRequest {
@@ -101,24 +100,17 @@ model PullRequest {
   repositoryId Int
   creator      User       @relation(fields: [creatorId], references: [id])
   creatorId    Int
-  comments     Comment[]
 }
 
 model Comment {
   id            Int          @id @default(autoincrement())
-  content       String
+  comment       String
   createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
   author        User         @relation(fields: [authorId], references: [id])
   authorId      Int
-  issue         Issue?       @relation(fields: [issueId], references: [id])
-  issueId       Int?
-  pullRequest   PullRequest? @relation(fields: [pullRequestId], references: [id])
-  pullRequestId Int?
+  repository   Repository @relation(fields: [repositoryId], references: [id])
+  repositoryId Int
+  file         File      @relation(fields: [fileId], references: [id])
+  fileId      Int
 }
 
-model Organization {
-  id      Int    @id @default(autoincrement())
-  name    String @unique
-  members User[]
-}
