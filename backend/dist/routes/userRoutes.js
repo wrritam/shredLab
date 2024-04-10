@@ -16,8 +16,11 @@ const writeMDFile_1 = require("../controllers/user/commit/writeMDFile");
 const readMDFile_1 = require("../controllers/user/commit/readMDFile");
 const updateMDFile_1 = require("../controllers/user/commit/updateMDFile");
 const deleteMDFile_1 = require("../controllers/user/commit/deleteMDFile");
+const raisingIssuesOnRepo_1 = require("../controllers/user/commit/raisingIssuesOnRepo");
 const userAuth_1 = require("../middleware/userAuth");
 const commentUnderRepoFile_1 = require("../controllers/user/others/commentUnderRepoFile");
+const deleteCommentUnderRepoFiles_1 = require("../controllers/user/others/deleteCommentUnderRepoFiles");
+const allIssuesOnRepo_1 = require("../controllers/user/others/allIssuesOnRepo");
 const router = (0, express_1.Router)();
 //Authentication
 router.post('/auth/register', register_1.register);
@@ -36,7 +39,10 @@ router.post('/:repoid/write-md-files', userAuth_1.authentication, writeMDFile_1.
 router.get('/:repoid/md-files/:fileid', userAuth_1.authentication, readMDFile_1.readMDfiles);
 router.put('/:repoid/md-files/:fileid', userAuth_1.authentication, updateMDFile_1.updateMDFile);
 router.delete('/:repoid/md-files/:fileid', userAuth_1.authentication, deleteMDFile_1.deleteMDFile);
+router.post('/:repoid/create-issue', userAuth_1.authentication, raisingIssuesOnRepo_1.raiseNewIssuew);
 // Other Operations
 router.post('/comment-under-repo-file/:repoid/:fileid', userAuth_1.authentication, commentUnderRepoFile_1.commentUnderRepoFile);
+router.delete('/delete-comment-under-repo-file/:repoid/:fileid/:commentid', userAuth_1.authentication, deleteCommentUnderRepoFiles_1.deleteCommentUnderRepoFile);
+router.get('/all-issues-on-repo/:repoid', userAuth_1.authentication, allIssuesOnRepo_1.allIssueOnRepo);
 exports.default = router;
 //# sourceMappingURL=userRoutes.js.map

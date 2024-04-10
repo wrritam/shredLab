@@ -14,8 +14,11 @@ import { writeMDfiles } from '../controllers/user/commit/writeMDFile';
 import { readMDfiles } from '../controllers/user/commit/readMDFile';
 import { updateMDFile } from '../controllers/user/commit/updateMDFile';
 import { deleteMDFile } from '../controllers/user/commit/deleteMDFile';
+import { raiseNewIssuew } from '../controllers/user/commit/raisingIssuesOnRepo';
 import { authentication } from '../middleware/userAuth';
 import { commentUnderRepoFile } from '../controllers/user/others/commentUnderRepoFile';
+import { deleteCommentUnderRepoFile } from '../controllers/user/others/deleteCommentUnderRepoFiles';
+import { allIssueOnRepo } from '../controllers/user/others/allIssuesOnRepo';
 
 const router = Router();
 
@@ -37,9 +40,16 @@ router.post('/:repoid/write-md-files', authentication, writeMDfiles);
 router.get('/:repoid/md-files/:fileid', authentication, readMDfiles);
 router.put('/:repoid/md-files/:fileid', authentication, updateMDFile);
 router.delete('/:repoid/md-files/:fileid', authentication, deleteMDFile);
+router.post('/:repoid/create-issue', authentication, raiseNewIssuew);
 
 // Other Operations
 
 router.post('/comment-under-repo-file/:repoid/:fileid', authentication, commentUnderRepoFile);
+router.delete(
+    '/delete-comment-under-repo-file/:repoid/:fileid/:commentid',
+    authentication,
+    deleteCommentUnderRepoFile,
+);
+router.get('/all-issues-on-repo/:repoid', authentication, allIssueOnRepo);
 
 export default router;
