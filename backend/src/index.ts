@@ -15,5 +15,5 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (res: Response) => res.send("Welcome to the backside!"));
-app.use("/api/user", userRoutes);
+app.use("/api", userRoutes);
 app.listen(port, () => console.log(`App listening on port ${port}!`));

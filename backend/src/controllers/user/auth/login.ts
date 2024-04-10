@@ -25,7 +25,8 @@ export const login = async (req: express.Request, res: express.Response) => {
         where: { email: email },
         data: { last_login: new Date().toLocaleDateString() },
       });
-      res.json({ exists: true, success: true, message: "Logged in successfully", token: loginToken });
+      res.cookie("token", loginToken, { httpOnly: true });
+      res.json({ exists: true, success: true, message: "Logged in successfully" });
     } else {
       res.json({ exists: true, success: false, message: "Incorrect Password", token: null });
     }

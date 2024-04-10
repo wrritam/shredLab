@@ -15,6 +15,12 @@ export const register = async (req: express.Request, res: express.Response) => {
     const existingUser = await prisma.user.findUnique({
         where: { email: email },
     });
+    const hashedPassword: string = await new Promise((resolve, reject) => {
+        bcrypt.hash(password, 7, (err, hash) => {
+            if (err) reject(err);
+            else resolve(hash);
+        });
+    });
     if (existingUser) {
         const isUserVerified = existingUser.is_verified;
         if (isUserVerified === false) {
@@ -23,15 +29,15 @@ export const register = async (req: express.Request, res: express.Response) => {
                 where: { email: email },
                 data: {
                     username: username,
+                    password: hashedPassword,
+                    bio: bio,
                     name: name,
                     otp: randomOTP,
+                    profilePictureUrl: profilePictureUrl,
                     createdAt: new Date().toISOString(),
                 },
             });
-            const emailTemplatePath = path.resolve(
-                __dirname,
-                '../../../templates/email.handlebars',
-            );
+            const emailTemplatePath = path.resolve(__dirname, '../../../templates/email.handlebars');
             const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
             const emailTemplate = Handlebars.compile(emailTemplateSource);
             const content = emailTemplate({ randomOTP });
@@ -48,12 +54,6 @@ export const register = async (req: express.Request, res: express.Response) => {
             res.status(403).json({ success: false, message: 'User already exists', token: null });
         }
     } else {
-        const hashedPassword: string = await new Promise((resolve, reject) => {
-            bcrypt.hash(password, 7, (err, hash) => {
-                if (err) reject(err);
-                else resolve(hash);
-            });
-        });
         const randomOTP = sendOTP();
         await prisma.user.create({
             data: {
@@ -68,10 +68,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                 profilePictureUrl: profilePictureUrl,
             },
         });
-        const emailTemplatePath = path.resolve(
-            __dirname,
-            '../../../templates/oneTimePassword.handlebars',
-        );
+        const emailTemplatePath = path.resolve(__dirname, '../../../templates/email.handlebars');
         const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
         const emailTemplate = Handlebars.compile(emailTemplateSource);
         const content = emailTemplate({ randomOTP });

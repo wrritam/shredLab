@@ -229,3 +229,16 @@ html {
 .no-text-highlight::selection {
   background-color: transparent !important;
 }
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.rotate {
+  animation: rotation 2s infinite linear;
+}
