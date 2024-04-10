@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import "dotenv/config";
 import userRoutes from "./routes/userRoutes";
 import bodyParser from 'body-parser';
@@ -14,6 +14,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req: Request, res: Response) => res.send("Welcome to the backside!"));
-app.use("/user", userRoutes);
+app.get("/", (res: Response) => res.send("Welcome to the backside!"));
+app.use("/api/user", userRoutes);
 app.listen(port, () => console.log(`App listening on port ${port}!`));

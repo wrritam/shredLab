@@ -11,7 +11,7 @@ import Handlebars from 'handlebars';
 const mailSubject = 'ShreddLab Account Verification';
 
 export const register = async (req: express.Request, res: express.Response) => {
-    const { name, username, profilePictureUrl, bio, email, password } = req.body;
+    const { name, username, bio, profilePictureUrl, email, password } = req.body;
     const existingUser = await prisma.user.findUnique({
         where: { email: email },
     });
@@ -25,10 +25,13 @@ export const register = async (req: express.Request, res: express.Response) => {
                     username: username,
                     name: name,
                     otp: randomOTP,
-                    createdAt: new Date(),
+                    createdAt: new Date().toISOString(),
                 },
             });
-            const emailTemplatePath = path.resolve(__dirname, '../../../templates/email.handlebars');
+            const emailTemplatePath = path.resolve(
+                __dirname,
+                '../../../templates/email.handlebars',
+            );
             const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
             const emailTemplate = Handlebars.compile(emailTemplateSource);
             const content = emailTemplate({ randomOTP });
@@ -55,28 +58,27 @@ export const register = async (req: express.Request, res: express.Response) => {
                 name: name,
                 email: email,
                 password: hashedPassword,
-                profilePictureUrl: profilePictureUrl,
                 is_verified: false,
                 otp: randomOTP,
-                createdAt: new Date(),
+                createdAt: new Date().toISOString(),
+                profilePictureUrl: profilePictureUrl,
             },
         });
-        const emailTemplatePath = path.resolve(__dirname, '../../../templates/email.handlebars');
+        const emailTemplatePath = path.resolve(
+            __dirname,
+            '../../../templates/oneTimePassword.handlebars',
+        );
         const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
         const emailTemplate = Handlebars.compile(emailTemplateSource);
         const content = emailTemplate({ randomOTP });
         await sendMail(email, mailSubject, content);
         await prisma.user.update({
             where: { email: email },
-            data: { updatedAt: new Date() },
+            data: { updatedAt: new Date().toISOString() },
         });
         const token = jwt.sign({ email: email, name: name }, process.env.hiddenKey as string, {
             expiresIn: '1d',
         });
-        res.json({
-            success: true,
-            message: 'User created successfully',
-            token: token,
-        });
+        res.json({ success: true, message: 'User created successfully', token: token });
     }
 };

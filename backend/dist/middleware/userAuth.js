@@ -8,7 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authentication = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
-        const token = authHeader.split(" ")[1];
+        const token = authHeader.split(' ')[1];
         jsonwebtoken_1.default.verify(token, process.env.hiddenKey, (err, user) => {
             if (err) {
                 return res.sendStatus(403);

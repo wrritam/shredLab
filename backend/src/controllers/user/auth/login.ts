@@ -7,12 +7,7 @@ export const login = async (req: express.Request, res: express.Response) => {
   const { email, password } = req.body;
   const user = await prisma.user.findUnique({ where: { email: email } });
   if (!user || user.is_verified === false) {
-    res.json({
-      exists: false,
-      sucess: false,
-      message: "User not verified or don't exist",
-      token: null,
-    });
+    res.json({ exists: false, sucess: false, message: "User not verified or don't exist", token: null });
   } else {
     const passwordCheck: boolean = await new Promise((resolve, reject) => {
       bcrypt.compare(password, user.password, async (error, result) => {
@@ -30,19 +25,9 @@ export const login = async (req: express.Request, res: express.Response) => {
         where: { email: email },
         data: { last_login: new Date().toLocaleDateString() },
       });
-      res.json({
-        exists: true,
-        success: true,
-        message: "Logged in successfully",
-        token: loginToken,
-      });
+      res.json({ exists: true, success: true, message: "Logged in successfully", token: loginToken });
     } else {
-      res.json({
-        exists: true,
-        success: false,
-        message: "Incorrect Password",
-        token: null,
-      });
+      res.json({ exists: true, success: false, message: "Incorrect Password", token: null });
     }
   }
 };

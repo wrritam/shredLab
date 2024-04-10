@@ -2,9 +2,10 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { sendMail } from "../../../helpers/sentMail";
 import prisma from "../../../db/db.config";
-import { sendOTP } from "../../../helpers/sendOTP";
-import Handlebars from "handlebars";
 import * as fs from 'fs';
+import path from 'path';
+import Handlebars from "handlebars";
+import { sendOTP } from "../../../helpers/sendOTP";
 
 export const forgotPassword = async ( req: express.Request, res: express.Response ) => {
   const { email } = req.body;
@@ -18,10 +19,11 @@ export const forgotPassword = async ( req: express.Request, res: express.Respons
     const token = jwt.sign({ email: email }, process.env.hiddenKey as string, {
       expiresIn: "1d",
     });
-    const emailTemplateSource = fs.readFileSync('../../../templates/email.handlebars', 'utf-8');
+    const emailTemplatePath = path.resolve(__dirname, '../../../templates/oneTimePassword.handlebars');
+    const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
     const emailTemplate = Handlebars.compile(emailTemplateSource);
-    const content = emailTemplate({ randomOTP })
-    sendMail(email, "Forgot Password?", content);
+    const content = emailTemplate({ randomOTP });
+    sendMail(email, "ShreddLab Account Recovery", content);
     if (otpUpdated) {
       res.json({ message: "Verified", token: token });
     } else {
