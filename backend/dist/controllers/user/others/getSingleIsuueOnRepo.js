@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.raiseNewIssue = void 0;
+exports.getSingleIsuueOnRepo = void 0;
 const db_config_1 = __importDefault(require("../../../db/db.config"));
-const raiseNewIssue = async (req, res) => {
+const getSingleIsuueOnRepo = async (req, res) => {
     if (!req.user) {
         return res.status(403).json({ message: 'User not found' });
     }
@@ -14,18 +14,13 @@ const raiseNewIssue = async (req, res) => {
     });
     if (user) {
         const repo = await db_config_1.default.repository.findUnique({
-            where: { id: parseInt(req.params.repoid), ownerId: user.id },
+            where: { id: parseInt(req.params.repoid) },
         });
         if (repo) {
-            const newIssue = await db_config_1.default.issue.create({
-                data: {
-                    title: req.body.title,
-                    description: req.body.description,
-                    creatorId: user.id,
-                    repositoryId: parseInt(req.params.repoid),
-                },
+            const issue = await db_config_1.default.issue.findUnique({
+                where: { id: parseInt(req.params.issueid) },
             });
-            res.status(201).json({ message: 'Issue created', data: newIssue.title });
+            res.status(200).json({ message: 'Issue found', data: issue });
         }
         else {
             res.status(403).json({ message: 'Repository not found' });
@@ -35,5 +30,5 @@ const raiseNewIssue = async (req, res) => {
         res.status(403).json({ message: 'User not found' });
     }
 };
-exports.raiseNewIssue = raiseNewIssue;
-//# sourceMappingURL=raisingIssuesOnRepo.js.map
+exports.getSingleIsuueOnRepo = getSingleIsuueOnRepo;
+//# sourceMappingURL=getSingleIsuueOnRepo.js.map

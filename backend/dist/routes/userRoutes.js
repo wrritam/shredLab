@@ -21,6 +21,7 @@ const userAuth_1 = require("../middleware/userAuth");
 const commentUnderRepoFile_1 = require("../controllers/user/others/commentUnderRepoFile");
 const deleteCommentUnderRepoFiles_1 = require("../controllers/user/others/deleteCommentUnderRepoFiles");
 const allIssuesOnRepo_1 = require("../controllers/user/others/allIssuesOnRepo");
+const getSingleIsuueOnRepo_1 = require("../controllers/user/others/getSingleIsuueOnRepo");
 const router = (0, express_1.Router)();
 //Authentication
 router.post('/auth/register', register_1.register);
@@ -39,10 +40,11 @@ router.post('/:repoid/write-md-files', userAuth_1.authentication, writeMDFile_1.
 router.get('/:repoid/md-files/:fileid', userAuth_1.authentication, readMDFile_1.readMDfiles);
 router.put('/:repoid/md-files/:fileid', userAuth_1.authentication, updateMDFile_1.updateMDFile);
 router.delete('/:repoid/md-files/:fileid', userAuth_1.authentication, deleteMDFile_1.deleteMDFile);
-router.post('/:repoid/create-issue', userAuth_1.authentication, raisingIssuesOnRepo_1.raiseNewIssuew);
+router.post('/:repoid/create-issue', userAuth_1.authentication, raisingIssuesOnRepo_1.raiseNewIssue);
 // Other Operations
 router.post('/comment-under-repo-file/:repoid/:fileid', userAuth_1.authentication, commentUnderRepoFile_1.commentUnderRepoFile);
-router.delete('/delete-comment-under-repo-file/:repoid/:fileid/:commentid', userAuth_1.authentication, deleteCommentUnderRepoFiles_1.deleteCommentUnderRepoFile);
-router.get('/all-issues-on-repo/:repoid', userAuth_1.authentication, allIssuesOnRepo_1.allIssueOnRepo);
+router.delete('/delete-comment/:repoid/:fileid/:commentid', userAuth_1.authentication, deleteCommentUnderRepoFiles_1.deleteCommentUnderRepoFile);
+router.get('/issues/:repoid', userAuth_1.authentication, allIssuesOnRepo_1.allIssueOnRepo);
+router.get('/issue/:repoid/:issueid', userAuth_1.authentication, getSingleIsuueOnRepo_1.getSingleIsuueOnRepo);
 exports.default = router;
 //# sourceMappingURL=userRoutes.js.map
