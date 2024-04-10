@@ -1,0 +1,82 @@
+{
+    "blocks": [
+        {
+            "id": "lfvIZreQHN",
+            "type": "paragraph",
+            "data": {
+                "text": "<b>Week 1</b>"
+            }
+        },
+        {
+            "id": "7Nh9GwMieh",
+            "type": "list",
+            "data": {
+                "style": "ordered",
+                "items": [
+                    "<i>Monday:&nbsp;Push</i>",
+                    "<i>Tuesday:&nbsp;Pull</i>",
+                    "<i>Wednesday:&nbsp;Legs</i>",
+                    "<i>Thursday:&nbsp;off</i>",
+                    "<i>Friday:&nbsp;Push</i>",
+                    "<i>Saturday:&nbsp;Pull</i>",
+                    "<i>Sunday:&nbsp;Legs</i>"
+                ]
+            }
+        },
+        {
+            "id": "0jGFbXvjVN",
+            "type": "paragraph",
+            "data": {
+                "text": "<b>Week 2</b>"
+            }
+        },
+        {
+            "id": "9aQzzBKcnc",
+            "type": "list",
+            "data": {
+                "style": "ordered",
+                "items": [
+                    "<i>Monday:&nbsp;off</i>",
+                    "<i>Tuesday:&nbsp;Push</i>",
+                    "<i>Wednesday:&nbsp;Pull</i>",
+                    "<i>Thursday:&nbsp;Legs</i>",
+                    "<i>Friday:&nbsp;off</i>",
+                    "<i>Saturday:&nbsp;Push</i>",
+                    "<i>Sunday:&nbsp;Pull</i>"
+                ]
+            }
+        },
+        {
+            "id": "vl64TVRZQB",
+            "type": "paragraph",
+            "data": {
+                "text": "<b>Week 3</b>"
+            }
+        },
+        {
+            "id": "a33t1XE_kQ",
+            "type": "list",
+            "data": {
+                "style": "ordered",
+                "items": [
+                    "<i>Monday:&nbsp;Legs</i>",
+                    "<i>Tuesday:&nbsp;off</i>",
+                    "<i>Wednesday:&nbsp;Push</i>",
+                    "<i>Thursday:&nbsp;Pull</i>",
+                    "<i>Friday:&nbsp;Legs</i>",
+                    "<i>Saturday:&nbsp;off</i>",
+                    "<i>Sunday:&nbsp;Push</i>"
+                ]
+            }
+        },
+        {
+            "id": "xeFaIo10-e",
+            "type": "paragraph",
+            "data": {
+                "text": "And it continues on and on in this same format where it’s three consecutive workouts followed by a day off (and then repeat). So it’s push/pull/legs/off and then push/pull/legs/off and then push/pull/legs/off, etc. etc. etc."
+            }
+        }
+    ],
+    "version": "2.29.1"
+}
+

@@ -39,7 +39,11 @@ export const register = async (req: express.Request, res: express.Response) => {
             const token = jwt.sign({ email: email, name: name }, process.env.hiddenKey as string, {
                 expiresIn: '1d',
             });
-            res.status(200).json({ success: true, message: 'User updated', token: token });
+            res.cookie('token', token, {
+                maxAge: 86400000,
+                httpOnly: true
+            });
+            res.status(200).json({ success: true, message: 'User updated' });
         } else {
             res.status(403).json({ success: false, message: 'User already exists', token: null });
         }
@@ -79,6 +83,10 @@ export const register = async (req: express.Request, res: express.Response) => {
         const token = jwt.sign({ email: email, name: name }, process.env.hiddenKey as string, {
             expiresIn: '1d',
         });
-        res.json({ success: true, message: 'User created successfully', token: token });
+        res.cookie('token', token, {
+            maxAge: 86400000,
+            httpOnly: true
+        });
+        res.json({ success: true, message: 'User created successfully'});
     }
 };
