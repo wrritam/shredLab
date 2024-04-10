@@ -16,7 +16,7 @@ app.use((0, compression_1.default)());
 app.use(express_1.default.json());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-app.get("/", (req, res) => res.send("Welcome to the backside!"));
+app.get("/", (res) => res.send("Welcome to the backside!"));
 app.use("/user", userRoutes_1.default);
 app.listen(port, () => console.log(`App listening on port ${port}!`));
 //# sourceMappingURL=index.js.map

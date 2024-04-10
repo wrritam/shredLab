@@ -7,6 +7,9 @@ exports.commentUnderRepoFile = void 0;
 const db_config_1 = __importDefault(require("../../../db/db.config"));
 const commentUnderRepoFile = async (req, res) => {
     const { comment } = req.body;
+    if (!req.user) {
+        return res.status(403).json({ message: 'User not found' });
+    }
     const user = await db_config_1.default.user.findUnique({
         where: { email: req.user.email },
     });
@@ -31,15 +34,15 @@ const commentUnderRepoFile = async (req, res) => {
                 res.status(201).json({ message: 'Comment created', data: addComment.comment });
             }
             else {
-                res.status(403).json({ message: 'File not found' });
+                res.status(403).json({ message: 'File not found', data: null });
             }
         }
         else {
-            res.status(403).json({ message: 'Repository not found' });
+            res.status(403).json({ message: 'Repository not found', data: null });
         }
     }
     else {
-        res.status(403).json({ message: 'User not found' });
+        res.status(403).json({ message: 'User not found', data: null });
     }
 };
 exports.commentUnderRepoFile = commentUnderRepoFile;

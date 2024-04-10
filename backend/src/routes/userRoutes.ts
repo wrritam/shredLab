@@ -1,5 +1,4 @@
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
 import { register } from '../controllers/user/auth/register';
 import { login } from '../controllers/user/auth/login';
 import { verifyRegistration } from '../controllers/user/auth/verify';
@@ -15,8 +14,10 @@ import { writeMDfiles } from '../controllers/user/commit/writeMDFile';
 import { readMDfiles } from '../controllers/user/commit/readMDFile';
 import { updateMDFile } from '../controllers/user/commit/updateMDFile';
 import { deleteMDFile } from '../controllers/user/commit/deleteMDFile';
-import { commentUnderRepoFile } from '../controllers/user/others/commentUnderRepoFile';
 import { authentication } from '../middleware/userAuth';
+import { commentUnderRepoFile } from '../controllers/user/others/commentUnderRepoFile';
+
+const router = Router();
 
 //Authentication
 router.post('/auth/register', register);

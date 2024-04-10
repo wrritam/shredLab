@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.readMDfiles = void 0;
 const db_config_1 = __importDefault(require("../../../db/db.config"));
 const readMDfiles = async (req, res) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'User not found' });
+    }
     const user = await db_config_1.default.user.findUnique({
         where: { email: req.user.email },
     });

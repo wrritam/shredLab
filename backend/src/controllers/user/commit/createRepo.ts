@@ -1,16 +1,12 @@
-import express from 'express';
+import { Response } from 'express';
 import prisma from '../../../db/db.config';
+import { UserRequest } from '../../../types/userType';
 
-interface User {
-    username: string;
-    email: string;
-    password: string;
-}
-interface UserRequest extends express.Request {
-    user: User;
-}
+export const createRepo = async (req: UserRequest, res: Response) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'User not found' });
+    }
 
-export const createRepo = async (req: UserRequest, res: express.Response) => {
     const user = await prisma.user.findUnique({
         where: { email: req.user.email },
     });
@@ -19,7 +15,9 @@ export const createRepo = async (req: UserRequest, res: express.Response) => {
         const newRepo = await prisma.repository.create({
             data: {
                 name: req.body.name,
+                description: req.body.description,
                 readme: req.body.readme,
+                visibility: req.body.visibility,
                 ownerId: user.id,
             },
         });

@@ -1,16 +1,12 @@
-import express, { Request, Response } from 'express';
+import { Response } from 'express';
 import prisma from '../../../db/db.config';
+import { UserRequest } from '../../../types/userType';
 
-interface User {
-    username: string;
-    email: string;
-    password: string;
-}
-interface UserRequest extends express.Request {
-    user: User;
-}
+export const readMDfiles = async (req: UserRequest, res: Response) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'User not found' });
+    }
 
-export const readMDfiles = async (req: UserRequest, res: express.Response) => {
     const user = await prisma.user.findUnique({
         where: { email: req.user.email },
     });
@@ -24,7 +20,7 @@ export const readMDfiles = async (req: UserRequest, res: express.Response) => {
             const file = await prisma.file.findUnique({
                 where: { id: parseInt(req.params.fileid) },
             });
-            res.status(200).json({ message: 'MD file read', data: file.content });
+            res.status(200).json({ message: 'MD file read', data: file!.content });
         } else {
             res.status(403).json({ message: 'Repository not found' });
         }

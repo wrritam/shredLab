@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
+const express_1 = require("express");
 const register_1 = require("../controllers/user/auth/register");
 const login_1 = require("../controllers/user/auth/login");
 const verify_1 = require("../controllers/user/auth/verify");
@@ -20,8 +16,9 @@ const writeMDFile_1 = require("../controllers/user/commit/writeMDFile");
 const readMDFile_1 = require("../controllers/user/commit/readMDFile");
 const updateMDFile_1 = require("../controllers/user/commit/updateMDFile");
 const deleteMDFile_1 = require("../controllers/user/commit/deleteMDFile");
-const commentUnderRepoFile_1 = require("../controllers/user/others/commentUnderRepoFile");
 const userAuth_1 = require("../middleware/userAuth");
+const commentUnderRepoFile_1 = require("../controllers/user/others/commentUnderRepoFile");
+const router = (0, express_1.Router)();
 //Authentication
 router.post('/auth/register', register_1.register);
 router.post('/auth/login', login_1.login);

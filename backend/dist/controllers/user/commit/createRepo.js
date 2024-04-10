@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRepo = void 0;
 const db_config_1 = __importDefault(require("../../../db/db.config"));
 const createRepo = async (req, res) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'User not found' });
+    }
     const user = await db_config_1.default.user.findUnique({
         where: { email: req.user.email },
     });
@@ -13,7 +16,9 @@ const createRepo = async (req, res) => {
         const newRepo = await db_config_1.default.repository.create({
             data: {
                 name: req.body.name,
+                description: req.body.description,
                 readme: req.body.readme,
+                visibility: req.body.visibility,
                 ownerId: user.id,
             },
         });

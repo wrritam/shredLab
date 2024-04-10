@@ -1,18 +1,12 @@
-import express, { Request, Response } from 'express';
+import { Response } from 'express';
 import prisma from '../../../db/db.config';
+import { UserRequest } from '../../../types/userType';
 
-interface User {
-    username: string;
-    email: string;
-    password: string;
-}
-
-interface UserRequest extends express.Request {
-    user: User;
-}
-
-export const commentUnderRepoFile = async (req: UserRequest, res: express.Response) => {
+export const commentUnderRepoFile = async (req: UserRequest, res: Response) => {
     const { comment } = req.body;
+    if (!req.user) {
+      return res.status(403).json({ message: 'User not found' });
+  }
     const user = await prisma.user.findUnique({
         where: { email: req.user.email },
     });
@@ -39,12 +33,12 @@ export const commentUnderRepoFile = async (req: UserRequest, res: express.Respon
                 });
                 res.status(201).json({ message: 'Comment created', data: addComment.comment });
             } else {
-                res.status(403).json({ message: 'File not found' });
+                res.status(403).json({ message: 'File not found', data: null });
             }
         } else {
-            res.status(403).json({ message: 'Repository not found' });
+            res.status(403).json({ message: 'Repository not found', data: null });
         }
     } else {
-        res.status(403).json({ message: 'User not found' });
+        res.status(403).json({ message: 'User not found', data: null });
     }
 };

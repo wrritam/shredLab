@@ -91,7 +91,7 @@ const register = async (req, res) => {
                 profilePictureUrl: profilePictureUrl,
             },
         });
-        const emailTemplatePath = path_1.default.resolve(__dirname, '../../../templates/email.handlebars');
+        const emailTemplatePath = path_1.default.resolve(__dirname, '../../../templates/oneTimePassword.handlebars');
         const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
         const emailTemplate = handlebars_1.default.compile(emailTemplateSource);
         const content = emailTemplate({ randomOTP });
@@ -103,11 +103,7 @@ const register = async (req, res) => {
         const token = jsonwebtoken_1.default.sign({ email: email, name: name }, process.env.hiddenKey, {
             expiresIn: '1d',
         });
-        res.json({
-            success: true,
-            message: 'User created successfully',
-            token: token,
-        });
+        res.json({ success: true, message: 'User created successfully', token: token });
     }
 };
 exports.register = register;

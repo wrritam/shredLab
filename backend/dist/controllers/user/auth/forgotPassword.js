@@ -30,9 +30,10 @@ exports.forgotPassword = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const sentMail_1 = require("../../../helpers/sentMail");
 const db_config_1 = __importDefault(require("../../../db/db.config"));
-const sendOTP_1 = require("../../../helpers/sendOTP");
-const handlebars_1 = __importDefault(require("handlebars"));
 const fs = __importStar(require("fs"));
+const path_1 = __importDefault(require("path"));
+const handlebars_1 = __importDefault(require("handlebars"));
+const sendOTP_1 = require("../../../helpers/sendOTP");
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
     const user = await db_config_1.default.user.findUnique({ where: { email: email } });
@@ -45,10 +46,11 @@ const forgotPassword = async (req, res) => {
         const token = jsonwebtoken_1.default.sign({ email: email }, process.env.hiddenKey, {
             expiresIn: "1d",
         });
-        const emailTemplateSource = fs.readFileSync('../../../templates/email.handlebars', 'utf-8');
+        const emailTemplatePath = path_1.default.resolve(__dirname, '../../../templates/oneTimePassword.handlebars');
+        const emailTemplateSource = fs.readFileSync(emailTemplatePath, 'utf-8');
         const emailTemplate = handlebars_1.default.compile(emailTemplateSource);
         const content = emailTemplate({ randomOTP });
-        (0, sentMail_1.sendMail)(email, "Forgot Password?", content);
+        (0, sentMail_1.sendMail)(email, "ShreddLab Account Recovery", content);
         if (otpUpdated) {
             res.json({ message: "Verified", token: token });
         }

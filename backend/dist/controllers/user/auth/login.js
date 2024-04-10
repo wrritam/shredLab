@@ -11,12 +11,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await db_config_1.default.user.findUnique({ where: { email: email } });
     if (!user || user.is_verified === false) {
-        res.json({
-            exists: false,
-            sucess: false,
-            message: "User not verified or don't exist",
-            token: null,
-        });
+        res.json({ exists: false, sucess: false, message: "User not verified or don't exist", token: null });
     }
     else {
         const passwordCheck = await new Promise((resolve, reject) => {
@@ -33,20 +28,10 @@ const login = async (req, res) => {
                 where: { email: email },
                 data: { last_login: new Date().toLocaleDateString() },
             });
-            res.json({
-                exists: true,
-                success: true,
-                message: "Logged in successfully",
-                token: loginToken,
-            });
+            res.json({ exists: true, success: true, message: "Logged in successfully", token: loginToken });
         }
         else {
-            res.json({
-                exists: true,
-                success: false,
-                message: "Incorrect Password",
-                token: null,
-            });
+            res.json({ exists: true, success: false, message: "Incorrect Password", token: null });
         }
     }
 };
