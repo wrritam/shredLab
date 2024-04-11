@@ -11,18 +11,25 @@ export const createRepo = async (req: UserRequest, res: Response) => {
         where: { email: req.user.email },
     });
 
+    let visibility: boolean;
+    if (req.body.visibility === 'Public') {
+        visibility = true;
+    } else {
+        visibility = false;
+    }
+
     if (user) {
         const newRepo = await prisma.repository.create({
             data: {
                 name: req.body.name,
                 description: req.body.description,
                 readme: req.body.readme,
-                visibility: req.body.visibility,
+                visibility: visibility,
                 ownerId: user.id,
             },
         });
-        res.status(201).json({ message: 'Repository created', data: newRepo.name });
+        res.status(201).json({ success: true, message: 'Repository created', name: newRepo.name });
     } else {
-        res.status(403).json({ message: 'User not found' });
+        res.status(403).json({ success: false, message: 'User not found', name: null });
     }
 };

@@ -21,7 +21,7 @@ interface Payload {
    iat: number
  }
 
-const page = () => {
+const AccountVerification = () => {
    const [value, setValue] = useState("");
    const [loading, setLoading] = useState<boolean>(false);
    const [email, setEmail] = useState<string>("");
@@ -40,7 +40,7 @@ const page = () => {
       e.preventDefault();
       setLoading(true);
       try {
-        const response = await axios.post(`${process.env.VITE_SERVER_URL}/user/verify-registration`, {email, oneTimePass: value})
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/verify-registration`, {email, oneTimePass: value})
         const result = response.data
          if (result.success === true) {
           router.push("/");
@@ -82,4 +82,4 @@ const page = () => {
    )
 }
 
-export default page
+export default AccountVerification

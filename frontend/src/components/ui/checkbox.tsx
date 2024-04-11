@@ -34,10 +34,13 @@ const tickVariants = {
 interface CheckboxProps {
   children: ReactNode;
   id: string;
+  onCheckedChange?: (checked: boolean) => void;
 }
 
-export default function Checkbox({ children, id }: CheckboxProps) {
+
+export default function Checkbox({ children, id, onCheckedChange }: CheckboxProps) {
   const [isChecked, setIsChecked] = useState(false);
+
 
   return (
     <div className="flex items-center mt-3">
@@ -45,7 +48,10 @@ export default function Checkbox({ children, id }: CheckboxProps) {
         value={{
           id,
           isChecked,
-          setIsChecked,
+          setIsChecked: (checked) => {
+            setIsChecked(checked);
+            onCheckedChange?.(checked);
+          },
         }}
       >
         {children}
@@ -56,9 +62,12 @@ export default function Checkbox({ children, id }: CheckboxProps) {
 
 function CheckboxIndicator() {
   const { id, isChecked, setIsChecked } = useContext(CheckboxContext);
+  const handleChange = () => {
+    setIsChecked(!isChecked);
+  };
 
   return (
-    <button className="relative flex items-center">
+    <button className="relative flex items-center" onClick={handleChange}>
       <input
         type="checkbox"
         className="border-blue-gray-200 relative h-5 w-5 cursor-pointer appearance-none rounded-md border-2 transition-all duration-500 checked:border-[#27374D] checked:bg-[#27374D]"

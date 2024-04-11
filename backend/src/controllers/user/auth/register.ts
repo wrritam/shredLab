@@ -49,7 +49,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                 maxAge: 86400000,
                 httpOnly: true
             });
-            res.status(200).json({ success: true, message: 'User updated' });
+            res.status(200).json({ success: true, message: 'User updated', token: token });
         } else {
             res.status(403).json({ success: false, message: 'User already exists', token: null });
         }

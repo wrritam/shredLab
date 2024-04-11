@@ -43,16 +43,18 @@ const Register = () => {
             profilePictureUrl: avatarUrl,
             email: user.email,
             password: user.password
-         })
+         },
+      )
          const result: Result = response.data
          if (result.success === false ) {
+            localStorage.removeItem('userBio');
             showToast(result.message, false);
             setLoading(false)
          } else {
             Cookies.set('RegisterCookie', result.token! , { expires: 7 })
             console.log(result.token)
             setLoading(false);
-            navigate.push("/auth/account-verification");
+            navigate.push("/account-verification");
          }
       } else {
          showToast("Enter all fields", false)

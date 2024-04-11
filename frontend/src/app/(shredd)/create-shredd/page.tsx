@@ -1,12 +1,18 @@
 "use client"
 
 import { uniqueNamesGenerator, Config, adjectives, colors, animals } from 'unique-names-generator';
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion';
 import { CheckIcon, ChevronDown, Info } from 'lucide-react';
 import Checkbox from '@/components/ui/checkbox';
 import { Button } from '@nextui-org/react';
 import axios from 'axios';
+import { headers } from '@/utils/auth-header-utils';
+import demo from "@/extra/demo.json"
+import { showToast } from '@/helpers/taosts';
+import { Content } from '@/types/content-type';
+import { User } from '@/types/user-type';
+import { useRouter } from 'next/navigation';
 
 const CreateShredd = () => {
    const config: Config = {
@@ -24,6 +30,9 @@ const CreateShredd = () => {
       setShreddName(randomName)
    }
 
+   const [shreddDescription, setShreddDescription] = useState<string>('');
+   const router = useRouter()
+
    const visibility = [
       {
          value: 'Public',
@@ -35,9 +44,56 @@ const CreateShredd = () => {
       },
    ];
 
+   const [isReadmeChecked, setIsReadmeChecked] = useState<boolean>(false);
+   const [readme, setReadme] = useState<Content | null>(null);
+
+   const handleReadmeCheckboxChange = (checked: boolean) => {
+      if (checked) {
+         setIsReadmeChecked(true);
+         setReadme(demo);
+      } else {
+         setIsReadmeChecked(false);
+         setReadme(null);
+      }
+   };
+
    const handleClick = async () => {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/create-repo`, )
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/create-repo`, {
+         name: shreddName,
+         description: shreddDescription,
+         readme: readme,
+         visibility: isVisible
+      }, { headers })
+      if (response.data.success) {
+         showToast(response.data.name, true)
+      } else {
+         showToast(response.data.name, false)
+      }
    }
+   const handleShreddDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      let input = e.target;
+      const text = input.value;
+      setShreddDescription(text);
+      input.style.height = 'auto';
+      input.style.height = input.scrollHeight + 'px';
+
+      localStorage.setItem('shreddDescription', text);
+   }
+
+   const [userInfo, setUserInfo] = useState<User>();
+
+    useEffect(() => {
+        const getUserData = async () => {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/get-user-info`, {headers});
+            if (response.data.success === true) {
+               setUserInfo(response.data.data);
+            } else {
+               router.push('/register')
+            }
+        };
+
+        getUserData();
+    }, []);
    return (
       <section className='w-[60%] mx-auto my-[3vw] text-[#212A3E]'>
          <div className='px-2'>
@@ -49,8 +105,8 @@ const CreateShredd = () => {
             <div className='flex flex-col gap-1'>
                <h1 className='font-bold'>Owner</h1>
                <button className='badge font-semibold'>
-                  <img src='/Chikorita.svg' alt='chikorita' className='w-8 h-8 my-auto' />
-                  <p className='text-lg my-auto'>Oeuvars</p>
+                  <img src={userInfo?.profilePictureUrl} alt='chikorita' className='w-8 h-8 my-auto' />
+                  <p className='text-lg my-auto'>{userInfo?.username}</p>
                </button>
             </div>
             <div className='font-bold text-2xl mt-8'>
@@ -69,9 +125,12 @@ const CreateShredd = () => {
          </div>
          <div className='px-2 mt-5 flex flex-col gap-2'>
             <h1 className='font-bold'>Description (optional)</h1>
-            <input
-               className=' bg-white/5 py-[0.62rem] px-5 rounded-lg backdrop-blur-sm outline-none border border-[#526D82]/30 font-medium'
-            />
+            <textarea
+               placeholder='Your bio...'
+               className='scroll resize-none leading-tight text-[#040D12] title bg-white/5 py-3 px-5 rounded-lg backdrop-blur-sm outline-none border border-[#526D82]/30 font-medium w-full'
+               value={shreddDescription}
+               onChange={handleShreddDescription}
+            ></textarea>
          </div>
          <hr className='border-t-[1px] border-[#9db2bf80] my-5' />
          <div className="relative flex flex-col gap-2 font-medium w-[98.5%] mx-auto">
@@ -80,8 +139,8 @@ const CreateShredd = () => {
                className="flex mx-auto w-full justify-between cursor-pointer px-5 py-[0.65rem] rounded-lg no-text-highlight outline-neutral-600 outline-offset-1 border border-[#526D82]/30 bg-white/5 backdrop-blur-xl drop-shadow-[0_0px_10px_rgba(0,0,0,0.075)]"
                onClick={() => setShowIsVisibleDropdown(!showIsVisibleDropdown)}
             >
-               {isVisible ? visibility.find( organisation => organisation.value === isVisible )?.label : 'Sponsered by'}
-               <ChevronDown className={`animation my-auto ml-2 h-6 w-6 shrink-0 opacity-50 ${showIsVisibleDropdown ? 'rotate-180' : 'rotate-0'}`}/>
+               {isVisible ? visibility.find(organisation => organisation.value === isVisible)?.label : 'Sponsered by'}
+               <ChevronDown className={`animation my-auto ml-2 h-6 w-6 shrink-0 opacity-50 ${showIsVisibleDropdown ? 'rotate-180' : 'rotate-0'}`} />
             </div>
             {showIsVisibleDropdown && (
                <motion.div
@@ -92,21 +151,21 @@ const CreateShredd = () => {
                   className="absolute z-10 w-full justify-center mt-[5.2rem] rounded-lg bg-white/5 border border-[#526D82]/30 backdrop-blur-xl drop-shadow-[0_0px_10px_rgba(0,0,0,0.075)] py-1 px-1 font-medium"
                >
                   <div className="p-1 cursor-pointer">
-                        {visibility.map(organisation => (
-                           <div
-                              key={organisation.value}
-                              className="flex items-center justify-between px-2 py-3 hover:bg-[#9DB2BF]/40 rounded-md cursor-pointer"
-                              onClick={() => {
-                                    setIsVisible(organisation.value);
-                                    setShowIsVisibleDropdown(false);
-                              }}
-                           >
-                              <span className='capitalize text-base cursor-pointer font-medium no-text-highlight'>{organisation.label}</span>
-                              {isVisible === organisation.value && (
-                                    <CheckIcon className="h-4 w-4 text-neutral-950" />
-                              )}
-                           </div>
-                        ))}
+                     {visibility.map(organisation => (
+                        <div
+                           key={organisation.value}
+                           className="flex items-center justify-between px-2 py-3 hover:bg-[#9DB2BF]/40 rounded-md cursor-pointer"
+                           onClick={() => {
+                              setIsVisible(organisation.value);
+                              setShowIsVisibleDropdown(false);
+                           }}
+                        >
+                           <span className='capitalize text-base cursor-pointer font-medium no-text-highlight'>{organisation.label}</span>
+                           {isVisible === organisation.value && (
+                              <CheckIcon className="h-4 w-4 text-neutral-950" />
+                           )}
+                        </div>
+                     ))}
                   </div>
                </motion.div>
             )}
@@ -114,18 +173,18 @@ const CreateShredd = () => {
          <hr className='border-t-[1px] border-[#9db2bf80] my-5' />
          <div className='px-2'>
             <h1 className='font-bold'>Initialize this repository with:</h1>
-            <Checkbox id='c-1'>
+            <Checkbox id='c-1' onCheckedChange={handleReadmeCheckboxChange}>
                <Checkbox.Indicator />
                <Checkbox.Label>Add a README file</Checkbox.Label>
             </Checkbox>
          </div>
          <hr className='border-t-[1px] border-[#9db2bf80] my-5' />
          <div className='flex mx-auto justify-center gap-2 px-2'>
-            <Info className='w-4 h-4 my-auto'/>
+            <Info className='w-4 h-4 my-auto' />
             <h1 className='font-medium text-sm'>You are creating a <span className='lowercase'>{isVisible}</span> repository in your personal account.</h1>
          </div>
          <hr className='border-t-[1px] border-[#9db2bf80] my-5' />
-         <Button className='rounded-md bg-[#27374D] text-[#DDE6ED] px-5 py-2 font-semibold text-base ml-auto flex mr-2'>
+         <Button onClick={handleClick} className='rounded-md bg-[#27374D] text-[#DDE6ED] px-5 py-2 font-semibold text-base ml-auto flex mr-2'>
             Create repository
          </Button>
       </section>

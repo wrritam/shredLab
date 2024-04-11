@@ -20,6 +20,7 @@ import { commentUnderRepoFile } from '../controllers/user/others/commentUnderRep
 import { deleteCommentUnderRepoFile } from '../controllers/user/others/deleteCommentUnderRepoFiles';
 import { allIssueOnRepo } from '../controllers/user/others/allIssuesOnRepo';
 import { getSingleIsuueOnRepo } from '../controllers/user/others/getSingleIsuueOnRepo';
+import { getUserInfo } from '../controllers/user/credentials/getUserInfo';
 
 const router = Router();
 
@@ -30,6 +31,9 @@ router.post('/auth/verify-registration', verifyRegistration);
 router.post('/auth/forgot-password', forgotPassword);
 router.post('/auth/verify-updation', verifyUpdation);
 router.post('/auth/reset-password', resetPassword);
+
+//user
+router.get('/get-user-info', authentication, getUserInfo)
 
 // Commits and Repos Operation
 router.post('/create-repo', authentication, createRepo);
@@ -46,11 +50,7 @@ router.post('/:repoid/create-issue', authentication, raiseNewIssue);
 // Other Operations
 
 router.post('/comment-under-repo-file/:repoid/:fileid', authentication, commentUnderRepoFile);
-router.delete(
-    '/delete-comment/:repoid/:fileid/:commentid',
-    authentication,
-    deleteCommentUnderRepoFile,
-);
+router.delete('/delete-comment/:repoid/:fileid/:commentid', authentication, deleteCommentUnderRepoFile);
 router.get('/issues/:repoid', authentication, allIssueOnRepo);
 router.get('/issue/:repoid/:issueid', authentication, getSingleIsuueOnRepo);
 
