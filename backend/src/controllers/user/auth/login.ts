@@ -16,17 +16,12 @@ export const login = async (req: express.Request, res: express.Response) => {
       });
     });
     if (passwordCheck === true) {
-      const loginToken = jwt.sign(
-        { email: email, name: user.name },
-        process.env.hiddenKey as string,
-        { expiresIn: "7d" }
-      );
+      const loginToken = jwt.sign( { email: email, name: user.name }, process.env.hiddenKey as string, { expiresIn: "7d" });
       await prisma.user.update({
         where: { email: email },
-        data: { last_login: new Date().toLocaleDateString() },
+        data: { last_login: new Date() },
       });
-      res.cookie("token", loginToken, { httpOnly: true });
-      res.json({ exists: true, success: true, message: "Logged in successfully" });
+      res.json({ exists: true, success: true, message: "Logged in successfully", token: loginToken });
     } else {
       res.json({ exists: true, success: false, message: "Incorrect Password", token: null });
     }

@@ -10,10 +10,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@nextui-org/react';
 
 const Login = () => {
-   const variants = {
-      hidden: { opacity: 0, x: 0, y: 200 },
-      enter: { opacity: 1, x: 0, y: 0 },
-   }
+
    const [user, setUser] = useState({
       email: "",
       password: ""
@@ -33,6 +30,7 @@ const Login = () => {
          const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`, user);
          const result = response.data;
          if (result.success === true) {
+            console.log(result.token)
             Cookies.set('LoginCookie', result.token!, { expires: 7 })
             router.push('/')
             setLoading(false)

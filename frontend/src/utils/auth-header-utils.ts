@@ -1,3 +1,5 @@
+"use client"
+
 import Cookies from 'js-cookie';
 
 const registerCookie = Cookies.get('RegisterCookie');

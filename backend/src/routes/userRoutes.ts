@@ -21,6 +21,7 @@ import { deleteCommentUnderRepoFile } from '../controllers/user/others/deleteCom
 import { allIssueOnRepo } from '../controllers/user/others/allIssuesOnRepo';
 import { getSingleIsuueOnRepo } from '../controllers/user/others/getSingleIsuueOnRepo';
 import { getUserInfo } from '../controllers/user/credentials/getUserInfo';
+import { getUserInfoByUsername } from '../controllers/user/others/getUserInfoByUsername';
 
 const router = Router();
 
@@ -33,11 +34,12 @@ router.post('/auth/verify-updation', verifyUpdation);
 router.post('/auth/reset-password', resetPassword);
 
 //user
-router.get('/get-user-info', authentication, getUserInfo)
+router.get('/get-user-private-info', authentication, getUserInfo)
+router.get('/get-user-info/:username', getUserInfoByUsername)
 
 // Commits and Repos Operation
 router.post('/create-repo', authentication, createRepo);
-router.get('/get-top-repos', authentication, getTopRepos);
+router.get('/get-top-repos/:username', authentication, getTopRepos);
 router.get('/get-user-repos', authentication, getUserRepos);
 router.delete('/delete-repo/:repoid', authentication, deleteRepo);
 router.get('/get-single-repo/:repoid', authentication, getSingleRepo);

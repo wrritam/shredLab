@@ -6,9 +6,10 @@ export const getTopRepos = async (req: UserRequest, res: Response) => {
     if (!req.user) {
         return res.status(403).json({ message: 'User not found' });
     }
+    const { username } = req.params;
 
     const user = await prisma.user.findUnique({
-        where: { email: req.user.email },
+        where: { username: us },
     });
 
     if (user) {
